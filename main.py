@@ -3,9 +3,8 @@ import requests
 import xml.etree.ElementTree as ET
 import telebot
 from telebot import apihelper
-
 import time
-DBNAME = "rssfeeder.db"
+
 CHATID = config.get("main", "chat_id")
 TOKEN = ""
 
@@ -26,6 +25,6 @@ if __name__ == "__main__":
     tb = telebot.TeleBot(TOKEN)
     while True:
         for i in find_news():
-            tb.send_message(CHATID, "Новый вопрос в форуме: <a href='{}'>{}</a>".format(i['link'], i['title']),
-                            parse_mode='html', disable_web_page_preview=True)
+            tb.send_message(CHATID, "<a href='{}'>Новый вопрос в форуме</a>".format(i['link']),
+                            parse_mode='html', disable_web_page_preview=False)
         time.sleep(10)
