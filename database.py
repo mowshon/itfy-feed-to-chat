@@ -1,11 +1,12 @@
 from peewee import SqliteDatabase, Model
 from peewee import CharField, PrimaryKeyField, TimestampField
 from pathlib import Path
-from config import database_file
+from configparser import ConfigParser
 
+config = ConfigParser()
+config.read("config.ini")
 
-db = SqliteDatabase(Path.cwd() / database_file)
-
+db = SqliteDatabase(Path.cwd() / config.get('main', 'database_file'))
 
 class BaseModel(Model):
     class Meta:
