@@ -4,9 +4,10 @@ from pathlib import Path
 from configparser import ConfigParser
 
 config = ConfigParser()
-config.read("config.ini")
+config.read("config.ini", encoding="utf-8")
 
 db = SqliteDatabase(Path.cwd() / config.get('main', 'database_file'))
+
 
 class BaseModel(Model):
     class Meta:
