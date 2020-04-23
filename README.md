@@ -1,5 +1,4 @@
 ![Python test bot deployment](https://github.com/mowshon/itfy-feed-to-chat/workflows/Python%20test%20bot%20deployment/badge.svg)
-![Release](https://github.com/mowshon/itfy-feed-to-chat/workflows/Release/badge.svg)
 ## 🤖 Экспорт новых вопросов из Форума в Телеграм чат
 #### 📢 Форум: [ITFY](https://itfy.org)
 
@@ -10,7 +9,7 @@
 
 Необходимо изменить:
   * `token` ваш токен телеграм бота
-  * `chat_id` ID телегам чата
+  * `chat_id` ID телеграм чата
 
 ### Запуск бота
 
