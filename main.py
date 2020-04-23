@@ -34,4 +34,4 @@ if __name__ == "__main__":
                             disable_web_page_preview=False,
                             parse_mode='html',
                             reply_markup=key)
-        time.sleep(10)
+        time.sleep(60)
