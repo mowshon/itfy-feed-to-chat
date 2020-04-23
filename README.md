@@ -1,3 +1,4 @@
+![Python test bot deployment](https://github.com/mowshon/itfy-feed-to-chat/workflows/Python%20test%20bot%20deployment/badge.svg)
 ## 🤖 Экспорт новых вопросов из Форума в Телеграм чат
 #### 📢 Форум: [ITFY](https://itfy.org)
 
