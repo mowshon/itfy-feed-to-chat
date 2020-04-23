@@ -30,7 +30,7 @@ if __name__ == "__main__":
             key = telebot.types.InlineKeyboardMarkup()
             key.add(telebot.types.InlineKeyboardButton(text=f"{B_TEXT}", url=i['link']))
             tb.send_message(chat_id=CHAT_ID,
-                            text=f"{M_TEXT} <a href='{i['link']}'> {i['title']} </a>",
+                            text=f"<a href='{i['link']}'>{M_TEXT}</a>",
                             disable_web_page_preview=False,
                             parse_mode='html',
                             reply_markup=key)
