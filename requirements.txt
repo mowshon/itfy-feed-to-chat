@@ -1,8 +1,11 @@
 certifi==2020.4.5.1
 chardet==3.0.4
 idna==2.9
+peewee==3.13.2
+Pillow==7.1.1
+PySocks==1.7.1
 pyTelegramBotAPI==3.6.7
 requests==2.23.0
+selenium==3.141.0
 six==1.14.0
-peewee==3.13.2
 urllib3==1.25.9

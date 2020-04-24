@@ -1,4 +1,5 @@
 from database import Topic, config
+from screenshot import take_screenshot
 import requests
 import xml.etree.ElementTree as ET
 import telebot
@@ -29,6 +30,9 @@ if __name__ == "__main__":
         for i in find_news():
             key = telebot.types.InlineKeyboardMarkup()
             key.add(telebot.types.InlineKeyboardButton(text=f"{B_TEXT}", url=i['link']))
+            if take_screenshot(i['link']):
+                photo = open('attachement.png','rb')
+                tb.send_photo(chat_id=CHAT_ID, photo=photo, caption=i['title'])
             tb.send_message(chat_id=CHAT_ID,
                             text=f"<a href='{i['link']}'>{M_TEXT}</a>",
                             disable_web_page_preview=False,
