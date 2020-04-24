@@ -12,7 +12,7 @@ driver = webdriver.Chrome(options=options)
 
 def take_screenshot(link):
     driver.get(link)
-    element = driver.find_elements_by_class_name("message-main")[0]
+    element = driver.find_elements_by_class_name("message-cell--main")[0]
     location = element.location
     size = element.size
     driver.save_screenshot("screenshot.png")
