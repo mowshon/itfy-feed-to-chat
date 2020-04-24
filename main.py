@@ -33,7 +33,7 @@ if __name__ == "__main__":
             if take_screenshot(i['link']):
                 photo = open('attachement.png', 'rb')
                 tb.send_photo(chat_id=CHAT_ID, photo=photo,
-                              caption=f"{M_TEXT}:<br>{i['title']}",
+                              caption=f"{M_TEXT}: <a href='{i['link']}'>{i['title']}</a>",
                               parse_mode='html',
                               reply_markup=key
                               )
