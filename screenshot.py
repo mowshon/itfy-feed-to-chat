@@ -22,8 +22,8 @@ def take_screenshot(link):
         return False
 
     # crop image
-    x = 492
-    y = 113
+    x = location['x']
+    y = location['y']
     width = location['x']+size['width']
     height = y+size['height']
     im = Image.open('screenshot.png')
