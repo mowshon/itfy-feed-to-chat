@@ -8,10 +8,10 @@ options.add_argument("--test-type")
 options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
-driver = webdriver.Chrome(options=options)
 
 def take_screenshot(link):
     try:
+        driver = webdriver.Chrome(options=options)
         driver.get(link)
         element = driver.find_elements_by_class_name("message-cell--main")[0]
         location = element.location
