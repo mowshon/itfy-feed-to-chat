@@ -8,6 +8,7 @@ options.add_argument("--test-type")
 options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--window-size=1920x1080")
 
 def take_screenshot(link):
     try:
@@ -21,12 +22,12 @@ def take_screenshot(link):
         return False
 
     # crop image
-    x = location['x']
-    y = location['y']
+    x = 492
+    y = 113
     width = location['x']+size['width']
-    height = location['y']+size['height']
+    height = y+size['height']
     im = Image.open('screenshot.png')
-    im = im.crop((int(x), int(y), int(width), int(height)))
+    im = im.crop((int(x), int(y), int(width), int(height) if int(height) <= 1080 else 1080))
     im.save('attachement.png')
     os.remove("screenshot.png")
     driver.quit()
