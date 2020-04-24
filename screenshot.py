@@ -11,11 +11,14 @@ options.add_argument("--disable-dev-shm-usage")
 driver = webdriver.Chrome(options=options)
 
 def take_screenshot(link):
-    driver.get(link)
-    element = driver.find_elements_by_class_name("message-cell--main")[0]
-    location = element.location
-    size = element.size
-    driver.save_screenshot("screenshot.png")
+    try:
+        driver.get(link)
+        element = driver.find_elements_by_class_name("message-cell--main")[0]
+        location = element.location
+        size = element.size
+        driver.save_screenshot("screenshot.png")
+    except:
+        return False
 
     # crop image
     x = location['x']
