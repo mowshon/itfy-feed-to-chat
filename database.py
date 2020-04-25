@@ -1,5 +1,5 @@
 from peewee import SqliteDatabase, Model
-from peewee import CharField, PrimaryKeyField, TimestampField
+from peewee import IntegerField, CharField, PrimaryKeyField, TimestampField
 from pathlib import Path
 from configparser import ConfigParser
 
@@ -18,6 +18,7 @@ class Topic(BaseModel):
     id = PrimaryKeyField(null=False)
     title = CharField()
     link = CharField()
+    ext_id = IntegerField()
     saved_on = TimestampField()
     announced_on = TimestampField()
 
