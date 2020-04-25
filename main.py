@@ -17,12 +17,12 @@ def find_news():
     root = ET.fromstring(requests.get("https://itfy.org/forums/python-help/index.rss").content)
     for item in root.findall('.//channel/item'):
         link, title = item.find('link').text, item.find('title').text
-        ext_id = link.split('.')[-1]
+        ext_id = link.split('.')[-1].split('/')[0]
         if not Topic.select().where(Topic.ext_id == ext_id):
             items.append({"title": title, "link": link})
             Topic.create(title=title, link=link, ext_id=ext_id)
         else:
-            Topic.update(title=title, link=link).where(ext_id=ext_id)
+            Topic.update(title=title, link=link).where(Topic.ext_id == ext_id)
     return items
 
 
