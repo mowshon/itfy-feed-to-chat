@@ -14,7 +14,7 @@ M_TEXT = config.get("message", "message-text")
 
 def find_news():
     items = []
-    root = ET.fromstring(requests.get(config.get('main', 'rssurl')).content)
+    root = ET.fromstring(requests.get(config.get('main', 'rss_url')).content)
     for item in root.findall('.//channel/item'):
         link, title = item.find('link').text, item.find('title').text
         ext_id = link.split('.')[-1].split('/')[0]
