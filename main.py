@@ -55,7 +55,7 @@ class Worker(threading.Thread):
                                     disable_web_page_preview=False,
                                     parse_mode='html',
                                     reply_markup=key)
-            time.sleep(IU_UPDATE)
+            time.sleep(int(IU_UPDATE))
 
 if __name__ == "__main__":
     # apihelper.proxy = {"https": "use_some"}
