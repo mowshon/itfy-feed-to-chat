@@ -45,8 +45,35 @@ if __name__ == "__main__":
                               )
             else:
                 tb.send_message(chat_id=CHAT_ID,
-                            text=f"<a href='{i['link']}'>{M_TEXT}</a>",
-                            disable_web_page_preview=False,
-                            parse_mode='html',
-                            reply_markup=key)
-        time.sleep(60)
+                                text=f"<a href='{i['link']}'>{M_TEXT}</a>",
+                                disable_web_page_preview=False,
+                                parse_mode='html',
+                                reply_markup=key)
+
+        @tb.message_handler(content_types=['text'])
+        def text_com(message):
+            if message.reply_to_message is not None and message.reply_to_message.from_user.is_bot is not True:  # Проверка на ответ пользователю, а не боту
+                tb.delete_message(message.chat.id, message.message_id)
+                if str(message.text).startswith('!go'):
+                    search_key = telebot.types.InlineKeyboardMarkup()
+                    search_key.add(telebot.types.InlineKeyboardButton(text="Подробнее",
+                                                                      url=f"http://google.com/search?q={str(message.text).split('!go ')[1]}"))
+
+                    tb.send_message(chat_id=message.chat.id,
+                                     text=f"⁉ Вы можете получить ответ на свой вопрос перейдя по ссылке ниже: ",
+                                     reply_markup=search_key,
+                                     reply_to_message_id=message.reply_to_message.message_id)
+
+                elif str(message.text).startswith('!paste'):
+                    tb.send_message(chat_id=message.chat.id,
+                                     text=f"📝 Для того чтобы поделиться кодом или текстом ошибки воспользуйтесь сервисами:\n\n"
+                                          f" - https://pastebin.com\n"
+                                          f" - https://gist.github.com\n"
+                                          f" - https://del.dog\n"
+                                          f" - https://linkode.org\n"
+                                          f" - https://hastebin.com\n",
+                                     reply_to_message_id=message.reply_to_message.message_id,
+                                     disable_web_page_preview=True)
+
+
+        tb.polling(none_stop=True)
