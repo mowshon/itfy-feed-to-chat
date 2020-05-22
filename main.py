@@ -65,7 +65,7 @@ if __name__ == "__main__":
     @tb.message_handler(content_types=['text'])
     def text_com(message):
         if message.reply_to_message is not None and message.reply_to_message.from_user.is_bot is not True:  # Проверка на ответ пользователю, а не боту
-            tb.delete_message(message.chat.id, message.message_id)
+            #tb.delete_message(message.chat.id, message.message_id)
             if str(message.text).startswith('!go'):
                 search_key = telebot.types.InlineKeyboardMarkup()
                 search_key.add(telebot.types.InlineKeyboardButton(text="Подробнее",
