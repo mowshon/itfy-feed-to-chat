@@ -11,7 +11,7 @@ CHAT_ID = config.get("main", "chat_id")
 TOKEN = config.get("main", "token")
 B_TEXT = config.get("message", "button-text")
 M_TEXT = config.get("message", "message-text")
-
+IU_UPDATE = config.get("main", "interim_update")
 
 def find_news():
     items = []
@@ -55,6 +55,7 @@ class Worker(threading.Thread):
                                     disable_web_page_preview=False,
                                     parse_mode='html',
                                     reply_markup=key)
+            time.sleep(IU_UPDATE)
 
 if __name__ == "__main__":
     # apihelper.proxy = {"https": "use_some"}
