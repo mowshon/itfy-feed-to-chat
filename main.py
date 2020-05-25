@@ -12,6 +12,12 @@ TOKEN = config.get("main", "token")
 B_TEXT = config.get("message", "button-text")
 M_TEXT = config.get("message", "message-text")
 IU_UPDATE = config.get("main", "interim_update")
+QUESTION_TEXT = config.get("message", "question-body")
+DETAIL_TEXT = config.get("message", "detailed-text")
+PASTE_TEXT = config.get("message", "paste-text")
+NOMETA_TEXT = config.get("message", "nometa-body")
+NEPRIVET_TEXT = config.get("message", "neprivet-text")
+
 
 def find_news():
     items = []
@@ -45,50 +51,73 @@ class Worker(threading.Thread):
                 if self.take_screenshot(i['link']):
                     photo = open('attachement.png', 'rb')
                     self.bot.send_photo(chat_id=CHAT_ID, photo=photo,
-                                  caption=f"{M_TEXT} <a href='{i['link']}'>{i['title']}</a>",
-                                  parse_mode='html',
-                                  reply_markup=key
-                                  )
+                                        caption=f"{M_TEXT} <a href='{i['link']}'>{i['title']}</a>",
+                                        parse_mode='html',
+                                        reply_markup=key
+                                        )
                 else:
                     self.bot.send_message(chat_id=CHAT_ID,
-                                    text=f"<a href='{i['link']}'>{M_TEXT}</a>",
-                                    disable_web_page_preview=False,
-                                    parse_mode='html',
-                                    reply_markup=key)
+                                          text=f"<a href='{i['link']}'>{M_TEXT}</a>",
+                                          disable_web_page_preview=False,
+                                          parse_mode='html',
+                                          reply_markup=key)
             time.sleep(int(IU_UPDATE))
 
+
 if __name__ == "__main__":
-    # apihelper.proxy = {"https": "use_some"}
-    tb = telebot.TeleBot(TOKEN)
-    worker = Worker(find_news, tb, take_screenshot)
+    #  apihelper.proxy = {"https": "use_some"}
+    bot = telebot.TeleBot(TOKEN)
+    worker = Worker(find_news, bot, take_screenshot)
     worker.start()
-    @tb.message_handler(content_types=['text'])
+
+    commands = ('!go', '!paste', '!np', '!nm')  # Bot`s commands. If you are add a new command add their to this tuple!
+
+    @bot.message_handler(content_types=['text'])
     def text_com(message):
-        if message.reply_to_message is not None and message.reply_to_message.from_user.is_bot is not True:  # Проверка на ответ пользователю, а не боту
-            #tb.delete_message(message.chat.id, message.message_id)
-            if str(message.text).startswith('!go'):
+        if message.reply_to_message is not None and message.reply_to_message.from_user.is_bot is not True:  # Check replied message to human
+            try:
+                if str(message.text).startswith(commands):  # Checking bot`s command on reply message
+                    bot.delete_message(message.chat.id, message.message_id)
+            except Exception as DelError:
+                print(f"DelError: {DelError}")
+
+            if str(message.text).startswith('!go'):  # Google
+                try:  # Checking that query is not empty
+                    search_query = str(message.text).split('!go ')[1]
+                except IndexError:
+                    search_query = 'Как правильно задавать вопросы на сообществе'
+
                 search_key = telebot.types.InlineKeyboardMarkup()
-                search_key.add(telebot.types.InlineKeyboardButton(text="Подробнее",
-                                                                  url=f"http://google.com/search?q={str(message.text).split('!go ')[1]}"))
+                search_key.add(telebot.types.InlineKeyboardButton(text=DETAIL_TEXT,
+                                                                  url=f"http://google.com/search?q={search_query}"))
 
-                tb.send_message(chat_id=message.chat.id,
-                                text=f"⁉ Вы можете получить ответ на свой вопрос перейдя по ссылке ниже: ",
-                                reply_markup=search_key,
-                                reply_to_message_id=message.reply_to_message.message_id)
+                bot.send_message(chat_id=message.chat.id,
+                                 text=QUESTION_TEXT,
+                                 reply_markup=search_key,
+                                 reply_to_message_id=message.reply_to_message.message_id)
 
-            elif str(message.text).startswith('!paste'):
-                tb.send_message(chat_id=message.chat.id,
-                                text=f"📝 Для того чтобы поделиться кодом или текстом ошибки воспользуйтесь сервисами:\n\n"
-                                     f" - https://pastebin.com\n"
-                                     f" - https://gist.github.com\n"
-                                     f" - https://del.dog\n"
-                                     f" - https://linkode.org\n"
-                                     f" - https://hastebin.com\n",
-                                reply_to_message_id=message.reply_to_message.message_id,
-                                disable_web_page_preview=True)
+            elif str(message.text).startswith('!paste'):  # Pastebin
+                bot.send_message(chat_id=message.chat.id,
+                                 text=PASTE_TEXT,
+                                 reply_to_message_id=message.reply_to_message.message_id,
+                                 disable_web_page_preview=True)
+
+            elif str(message.text).startswith('!nm'):  # Neprivet.Ru
+                nometa_key = telebot.types.InlineKeyboardMarkup()
+                nometa_key.add(telebot.types.InlineKeyboardButton(text=DETAIL_TEXT, url="http://nometa.xyz"))
+
+                bot.send_message(chat_id=message.chat.id,
+                                 text=NOMETA_TEXT,
+                                 reply_markup=nometa_key,
+                                 reply_to_message_id=message.reply_to_message.message_id)
+
+            elif str(message.text).startswith('!np'):  # Nometa.Xyz
+                nometa_key = telebot.types.InlineKeyboardMarkup()
+                nometa_key.add(telebot.types.InlineKeyboardButton(text=DETAIL_TEXT, url="http://neprivet.ru"))
+                bot.send_message(chat_id=message.chat.id,
+                                 text=NEPRIVET_TEXT,
+                                 reply_markup=nometa_key,
+                                 reply_to_message_id=message.reply_to_message.message_id)
 
 
-    tb.polling(none_stop=True)
-
-
-
+    bot.polling(none_stop=True)
