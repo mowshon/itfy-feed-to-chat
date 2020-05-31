@@ -31,6 +31,7 @@ NEPRIVET_TEXT = config.get("message", "neprivet-text")
 IMPORT_DATA_FAIL = config.get("message", "import-data-fail")
 ADMINS = DATA['admins']
 
+
 def find_news():
     items = []
     try:
