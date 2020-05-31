@@ -11,7 +11,7 @@ import telebot
 from telebot import apihelper
 import time
 import threading
-from add_data_in_training_phrases import add_tp_pass, add_tp_help
+from add_data_in_tp import add_tp_pass, add_tp_help
 import selenium
 
 DATA = json.load(open('users.json', 'r'))
