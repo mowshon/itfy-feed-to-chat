@@ -91,7 +91,10 @@ if __name__ == "__main__":
         request.session_id = 'xyu'
         request.query = message.text
         responseJson = json.loads(request.getresponse().read().decode('utf-8'))
-        response = responseJson['result']['fulfillment']['speech']
+        try:
+            response = responseJson['result']['fulfillment']['speech']
+        except KeyError:
+            response = None
         try:
             photo = message.photo.file_size
         except AttributeError:
