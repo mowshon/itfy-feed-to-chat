@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     @bot.message_handler(content_types=['text'])
     def text_com(message):
-        username = message.chat.username
+        username = message.from_user.username
         request = apiai.ApiAI(f'{DIALOGFLOW_ID}').text_request()
         request.lang = 'ru'
         request.session_id = 'xyu'
