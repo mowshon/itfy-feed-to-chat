@@ -1,9 +1,7 @@
 import os
 from database import Topic, config
-import dialogflow_v2 as dialogflow
 import apiai
 import json
-from dialogflow_v2.types import name
 from screenshot import take_screenshot
 import requests
 import xml.etree.ElementTree as ET
@@ -11,12 +9,13 @@ import telebot
 from telebot import apihelper
 import time
 import threading
-from add_data_in_tp import add_tp_pass, add_tp_help
-import selenium
+from add_data_in_tp import add_tp
 
-MAIL = config.get("dialogflow", "email")
-PASSWORD = config.get("dialogflow", "password")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.get("dialogflow", "key")
 DIALOGFLOW_ID = config.get("dialogflow", "id")
+DF_PROJECT_ID = config.get("dialogflow", "project_id")
+DF_HELP_UUID = config.get("dialogflow", "help_intent_uuid")
+DF_PASS_UUID = config.get("dialogflow", "pass_intent_uuid")
 CHAT_ID = config.get("main", "chat_id")
 TOKEN = config.get("main", "token")
 B_TEXT = config.get("message", "button-text")
@@ -135,8 +134,8 @@ if __name__ == "__main__":
                 if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
-                        add_tp_help(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
-                    except selenium.common.exceptions.NoSuchElementException:
+                        add_tp(DF_HELP_UUID, DF_PROJECT_ID, message=f'{data2input}')
+                    except Exception:
                         bot.send_message(
                             chat_id=message.chat.id,
                             reply_markup=None,
@@ -157,8 +156,8 @@ if __name__ == "__main__":
                 if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
-                        add_tp_help(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
-                    except selenium.common.exceptions.NoSuchElementException:
+                        add_tp(DF_HELP_UUID, DF_PROJECT_ID, message=f'{data2input}')
+                    except Exception:
                         bot.send_message(
                             chat_id=message.chat.id,
                             reply_markup=None,
@@ -178,8 +177,8 @@ if __name__ == "__main__":
                 if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
-                        add_tp_pass(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
-                    except selenium.common.exceptions.NoSuchElementException:
+                        add_tp(DF_PASS_UUID, DF_PROJECT_ID, message=f'{data2input}')
+                    except Exception:
                         bot.send_message(
                             chat_id=message.chat.id,
                             reply_markup=None,
