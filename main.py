@@ -14,7 +14,6 @@ import threading
 from add_data_in_tp import add_tp_pass, add_tp_help
 import selenium
 
-DATA = json.load(open('users.json', 'r'))
 MAIL = config.get("dialogflow", "email")
 PASSWORD = config.get("dialogflow", "password")
 DIALOGFLOW_ID = config.get("dialogflow", "id")
@@ -29,7 +28,7 @@ PASTE_TEXT = config.get("message", "paste-text")
 NOMETA_TEXT = config.get("message", "nometa-body")
 NEPRIVET_TEXT = config.get("message", "neprivet-text")
 IMPORT_DATA_FAIL = config.get("message", "import-data-fail")
-ADMINS = DATA['admins']
+ADMINS = config.get("main", "admins").split(",")
 
 
 def find_news():
@@ -87,7 +86,7 @@ if __name__ == "__main__":
 
     @bot.message_handler(content_types=['text'])
     def text_com(message):
-        user = {}
+        username = message.chat.username
         request = apiai.ApiAI(f'{DIALOGFLOW_ID}').text_request()
         request.lang = 'ru'
         request.session_id = 'xyu'
@@ -108,7 +107,6 @@ if __name__ == "__main__":
         if message.reply_to_message is not None and message.reply_to_message.from_user.is_bot is not True:  # Check if replied message is replied to a human
             try:
                 if str(message.text).startswith(commands):  # Check if user has used any of those commands
-                    user['username'] = message.chat.username
                     bot.delete_message(message.chat.id, message.message_id)
             except Exception as DelError:
                 print(f"DelError: {DelError}")
@@ -134,7 +132,7 @@ if __name__ == "__main__":
                                  disable_web_page_preview=True)
 
             elif str(message.text).startswith('!nm'):  # nometa.xyz
-                if user['username'] in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
+                if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
                         add_tp_help(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
@@ -151,13 +149,12 @@ if __name__ == "__main__":
                                     reply_markup=nometa_key,
                                     reply_to_message_id=message.reply_to_message.message_id)
                 else:
-                    username = user["username"]
                     bot.send_message(chat_id=message.chat.id,
                                     text=f'@{username}, пожалуйста, если Вы считаете, что это мета-вопрос или просто "Привет", оповестите об этом администрацию. Спасибо!',
                                     )
 
             elif str(message.text).startswith('!np'):  # neprivet.ru
-                if user['username'] in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
+                if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
                         add_tp_help(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
@@ -174,12 +171,11 @@ if __name__ == "__main__":
                                     reply_markup=nometa_key,
                                     reply_to_message_id=message.reply_to_message.message_id)
                 else:
-                    username = user["username"]
                     bot.send_message(chat_id=message.chat.id,
                                     text=f'@{username}, пожалуйста, если Вы считаете, что это мета-вопрос или просто "Привет", оповестите об этом администрацию. Спасибо!',
                                     )
             elif str(message.text).startswith('!dnm'):  # if that's not a meta-question
-                if user['username'] in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
+                if username in ADMINS:  # Bot checks if user is in admins so randoms can't use this a lot
                     data2input = message.reply_to_message.text
                     try:
                         add_tp_pass(log=f'{MAIL}', password=f'{PASSWORD}', message=f'{data2input}')
@@ -193,7 +189,6 @@ if __name__ == "__main__":
                                     text='Ошибся, извините =)',
                                     reply_to_message_id=message.reply_to_message.message_id)
                 else:
-                    username = user["username"]
                     bot.send_message(chat_id=message.chat.id,
                                     text=f'@{username}, пожалуйста, если Вы считаете, что это не мета-вопрос и не просто "Привет", оповестите об этом администрацию. Спасибо!',
                                     )
