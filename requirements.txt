@@ -26,7 +26,7 @@ pyTelegramBotAPI==3.6.7
 pytest==5.4.2
 pytz==2020.1
 requests==2.23.0
-rsa==4.0
+rsa==4.1
 selenium==3.141.0
 six==1.14.0
 urllib3==1.25.9
