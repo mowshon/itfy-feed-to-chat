@@ -16,7 +16,7 @@ packaging==20.4
 peewee==3.13.2
 Pillow==7.1.1
 pluggy==0.13.1
-protobuf==3.12.2
+protobuf==3.15.0
 py==1.8.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
