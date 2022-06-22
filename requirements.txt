@@ -11,7 +11,7 @@ grpcio==1.29.0
 idna==2.9
 importlib-metadata==1.6.0
 more-itertools==8.3.0
-numpy==1.17.2
+numpy==1.22.0
 packaging==20.4
 peewee==3.13.2
 Pillow==7.1.1
