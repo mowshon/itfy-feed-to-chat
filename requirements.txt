@@ -14,7 +14,7 @@ more-itertools==8.3.0
 numpy==1.17.2
 packaging==20.4
 peewee==3.13.2
-Pillow==7.1.1
+Pillow==9.3.0
 pluggy==0.13.1
 protobuf==3.12.2
 py==1.8.1
